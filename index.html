@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>شمارش معکوس تا صدسالگی</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@700&display=swap');
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Scheherazade New', tahoma, serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: #ffcbcb;
+            text-shadow: 0 0 8px #ff4d4d;
+        }
+        .main-counter {
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 0 25px rgba(255, 77, 77, 0.25);
+            backdrop-filter: blur(8px);
+        }
+        .main-counter .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .main-counter .box {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px 10px;
+            min-width: 90px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .main-counter .num {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #ffd26a;
+        }
+        .main-counter .label {
+            font-size: 1rem;
+            margin-top: 5px;
+            color: #eee;
+        }
+        .sep-counter {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(6px);
+        }
+        .sep-counter h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ffcbcb;
+        }
+        .sep-counter .item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        .sep-counter .item span:last-child {
+            color: #ffd26a;
+            font-weight: bold;
+        }
+        footer {
+            margin-top: 30px;
+            font-size: 1.2rem;
+            line-height: 2;
+            color: #ddd;
+            max-width: 500px;
+        }
+        footer .emoji {
+            font-size: 1.5rem;
+            margin: 0 5px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- صفحه ورود تاریخ -->
+<div id="inputSection">
+    <h1>تاریخ تولد خود را وارد کنید</h1>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:20px;">
+        <input type="number" id="year" placeholder="سال" min="1300" max="1450" style="width:110px;padding:10px;border-radius:8px;border:none;font-size:1.1rem;text-align:center;">
+        <input type="number" id="month" placeholder="ماه" min="1" max="12" style="width:80px;padding:10px;border-radius:8px;border:none;font-size:1.1rem;text-align:center;">
+        <input type="number" id="day" placeholder="روز" min="1" max="31" style="width:80px;padding:10px;border-radius:8px;border:none;font-size:1.1rem;text-align:center;">
+    </div>
+    <button onclick="startCountdown()" style="margin-top:20px;padding:12px 35px;font-size:1.2rem;border:none;border-radius:10px;background:#ff4d4d;color:#fff;cursor:pointer;box-shadow:0 0 12px #ff4d4d;">شروع شمارش</button>
+</div>
+
+<!-- صفحه شمارش -->
+<div id="countSection" style="display:none;width:100%;max-width:700px;">
+    <h1>تسلیت دوست عزیز<br>شما دار فانی را در صدسالگی وداع گفتید</h1>
+
+    <div class="main-counter">
+        <div class="row">
+            <div class="box"><div class="num" id="y">0</div><div class="label">سال</div></div>
+            <div class="box"><div class="num" id="mo">0</div><div class="label">ماه</div></div>
+            <div class="box"><div class="num" id="w">0</div><div class="label">هفته</div></div>
+            <div class="box"><div class="num" id="d">0</div><div class="label">روز</div></div>
+            <div class="box"><div class="num" id="h">0</div><div class="label">ساعت</div></div>
+            <div class="box"><div class="num" id="m">0</div><div class="label">دقیقه</div></div>
+            <div class="box"><div class="num" id="s">0</div><div class="label">ثانیه</div></div>
+        </div>
+    </div>
+
+    <div class="sep-counter">
+        <h2>جداگانه</h2>
+        <div class="item"><span>ثانیه باقی‌مانده:</span><span id="ts">0</span></div>
+        <div class="item"><span>دقیقه باقی‌مانده:</span><span id="tm">0</span></div>
+        <div class="item"><span>ساعت باقی‌مانده:</span><span id="th">0</span></div>
+        <div class="item"><span>روز باقی‌مانده:</span><span id="td">0</span></div>
+        <div class="item"><span>هفته باقی‌مانده:</span><span id="tw">0</span></div>
+        <div class="item"><span>ماه باقی‌مانده:</span><span id="tmo">0</span></div>
+        <div class="item"><span>سال باقی‌مانده:</span><span id="ty">0</span></div>
+    </div>
+
+    <footer>
+        عجب رسمیه رسم زمانه، آدم‌ها می‌رن دونه‌به‌دونه<br>
+        از اون‌ها فقط خاطره‌هاشون به‌جا می‌مونه <span class="emoji">🕯️</span>
+    </footer>
+</div>
+
+<script>
+    let targetTS; // برچسب‌زمانی صدسالگی در میلادی
+
+    function startCountdown() {
+        const y = parseInt(document.getElementById('year').value);
+        const m = parseInt(document.getElementById('month').value);
+        const d = parseInt(document.getElementById('day').value);
+        if (!y || !m || !d) {
+            alert('لطفاً تاریخ کامل وارد کنید');
+            return;
+        }
+        // تبدیل تاریخ شمسی به میلادی (تقریب ساده)
+        const g = shamsiToGregorian(y, m, d);
+        const birth = new Date(g.gy, g.gm - 1, g.gd);
+        targetTS = birth.getTime() + 100 * 365.25 * 24 * 3600 * 1000; // صد سال بعد
+        document.getElementById('inputSection').style.display = 'none';
+        document.getElementById('countSection').style.display = 'block';
+        tick();
+        setInterval(tick, 1000);
+    }
+
+    function tick() {
+        const now = Date.now();
+        let diff = Math.floor((targetTS - now) / 1000); // ثانیه
+        if (diff < 0) diff = 0;
+
+        const sec = diff;
+        const min = Math.floor(sec / 60);
+        const hr = Math.floor(min / 60);
+        const dy = Math.floor(hr / 24);
+        const wk = Math.floor(dy / 7);
+        const mn = Math.floor(dy / 30.44);
+        const yr = Math.floor(dy / 365.25);
+
+        // نمایش کلی
+        document.getElementById('y').textContent = yr;
+        document.getElementById('mo').textContent = mn;
+        document.getElementById('w').textContent = wk;
+        document.getElementById('d').textContent = dy;
+        document.getElementById('h').textContent = hr;
+        document.getElementById('m').textContent = min;
+        document.getElementById('s').textContent = sec;
+
+        // نمایش جداگانه
+        document.getElementById('ts').textContent = sec.toLocaleString('fa');
+        document.getElementById('tm').textContent = min.toLocaleString('fa');
+        document.getElementById('th').textContent = hr.toLocaleString('fa');
+        document.getElementById('td').textContent = dy.toLocaleString('fa');
+        document.getElementById('tw').textContent = wk.toLocaleString('fa');
+        document.getElementById('tmo').textContent = mn.toLocaleString('fa');
+        document.getElementById('ty').textContent = yr.toLocaleString('fa');
+    }
+
+    // تبدیل ساده شمسی به میلادی (بدون اعمال تقویم رسمی)
+    function shamsiToGregorian(y, m, d) {
+        let gy = y + 621;
+        let gm = m;
+        let gd = d;
+        if (m > 10 || (m === 10 && d > 11)) gy++;
+        // برای ساده‌سازی، ماه‌ها ۳۰ روزه در نظر گرفته شده‌اند
+        return { gy, gm, gd };
+    }
+</script>
+
+</body>
+</html>
